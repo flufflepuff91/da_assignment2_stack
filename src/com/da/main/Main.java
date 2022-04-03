@@ -116,20 +116,28 @@ public class Main {
      * @return the result of the evaluation
      */
     public static Double evaluatePostfix(String input, MyStack stack) {
-        //TODO
+
 
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
 
-            if (Character.isDigit(ch))
-                stack.push((double) (ch - '0'));
-            else {
-                double n1 = stack.pop();
+            if (Character.isDigit(ch)) {
+                int d = Character.getNumericValue(ch);
+                stack.push((double) d);
+            } else {
                 double n2 = stack.pop();
+                double n1 = stack.pop();
                 switch (ch) {
                     case '+' -> stack.push(n1 + n2);
                     case '-' -> stack.push(n1 - n2);
-                    case '/' -> stack.push(n1 / n2);
+                    case '/' -> {
+                        if (n2 == 0) {
+                            System.out.println("Division by zero.");
+
+                        } else {
+                            stack.push(n1 / n2);
+                        }
+                    }
                     case '*' -> stack.push(n1 * n2);
                 }
             }
