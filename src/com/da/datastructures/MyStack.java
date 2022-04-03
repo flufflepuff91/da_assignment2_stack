@@ -6,8 +6,6 @@
 
 package com.da.datastructures;
 
-import java.util.ArrayList;
-
 /**
  * <code>MyStack</code> implements the data structure stack for elements of type <code>Double</code>.
  */
@@ -52,12 +50,10 @@ class JList {
 
     public void addJElement(Double value) {
         if (lastElem == null) {
-            JListElement newElem = new JListElement(value, null);
-            lastElem = newElem;
+            lastElem = new JListElement(value, null);
         } else {
             JListElement oldLastElem = lastElem;
-            JListElement newElem = new JListElement(value, oldLastElem);
-            lastElem = newElem;
+            lastElem = new JListElement(value, oldLastElem);
         }
     }
 

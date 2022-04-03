@@ -8,6 +8,7 @@ package com.da.main;
 
 import com.da.datastructures.MyStack;
 import com.da.util.IOHandler;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +22,7 @@ public class Main {
     /**
      * Entry point into the implementation that either calls to test the <code>MyStack</code> implementation or to
      * evaluate a given postfix expression.
+     *
      * @param args the path to the input file as args[0]
      */
     public static void main(String[] args) {
@@ -45,7 +47,7 @@ public class Main {
 
         try {
             parseTestcaseContent(input, myStack, result);
-        } catch(IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
             result.append(iae.getMessage());
         } finally {
@@ -56,9 +58,10 @@ public class Main {
 
     /**
      * Parses the test case to determine whether to test the stack or to evaluate a postfix expression.
-     * @param input the test case as a list with each element representing one line of the input test file
+     *
+     * @param input   the test case as a list with each element representing one line of the input test file
      * @param myStack the instance of the stack class
-     * @param result the result of the test case execution to be preformed
+     * @param result  the result of the test case execution to be preformed
      */
     private static void parseTestcaseContent(List<String> input, MyStack myStack, StringBuilder result) {
         if (input.get(0).equals("stack")) {
@@ -71,15 +74,17 @@ public class Main {
         }
     }
 
-    /** Parses the stack test case line by line, calls the corresponding <code>MyStack</code> method and handles the
+    /**
+     * Parses the stack test case line by line, calls the corresponding <code>MyStack</code> method and handles the
      * output.
-     * @param input the stack test case as a list with each element representing one line of the input test file
+     *
+     * @param input   the stack test case as a list with each element representing one line of the input test file
      * @param myStack the instance of the stack class
-     * @param result the result of the test case execution
+     * @param result  the result of the test case execution
      * @throws IllegalArgumentException in case of an unknown stack command within the test case file
      */
     private static void parseStackTestCase(List<String> input, MyStack myStack, StringBuilder result)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         for (int i = 1; i < input.size(); i++) {
             //get character between parentheses
             String line = input.get(i);
@@ -112,6 +117,23 @@ public class Main {
      */
     public static Double evaluatePostfix(String input, MyStack stack) {
         //TODO
-       return 0.0;
+
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+
+            if (Character.isDigit(ch))
+                stack.push((double) (ch - '0'));
+            else {
+                double n1 = stack.pop();
+                double n2 = stack.pop();
+                switch (ch) {
+                    case '+' -> stack.push(n1 + n2);
+                    case '-' -> stack.push(n1 - n2);
+                    case '/' -> stack.push(n1 / n2);
+                    case '*' -> stack.push(n1 * n2);
+                }
+            }
+        }
+        return stack.pop();
     }
 }
